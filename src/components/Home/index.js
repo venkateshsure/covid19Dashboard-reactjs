@@ -181,9 +181,8 @@ class Home extends Component {
     }
     const response = await fetch(apiUrl, options)
     if (response.ok === true) {
-      // console.log(response)
       const data = await response.json()
-      // console.log(data)
+
       let nationalWideConfirmedCases = 0
       let nationalWideRecoveredCases = 0
       let nationalWideDeceasedCases = 0
@@ -371,7 +370,7 @@ class Home extends Component {
       data.state_name.toLowerCase().includes(searchItem.toLowerCase()),
     )
 
-    return this.setState({
+    this.setState({
       search: event.target.value,
       filteredSearchList: searchResult,
     })
@@ -379,6 +378,7 @@ class Home extends Component {
 
   showSearchList = () => {
     const {filteredSearchList} = this.state
+    console.log(filteredSearchList)
 
     return (
       <ul className="search-result-container">
@@ -400,8 +400,7 @@ class Home extends Component {
 
   render() {
     const {isLoading, filteredSearchList, search} = this.state
-    const showSearchList =
-      filteredSearchList.length === 0 ? null : this.showSearchList()
+
     return (
       <>
         <Header />
@@ -414,10 +413,10 @@ class Home extends Component {
                 placeholder="Enter the State"
                 className="search-bar"
                 onChange={this.searchStarted}
-                onKeyUp={this.removeFilteredList}
+                value={search}
               />
             </div>
-            {search.length > 0 ? showSearchList : ''}
+            {filteredSearchList.length > 0 ? this.showSearchList() : ''}
             {isLoading ? (
               this.renderLoadingView()
             ) : (
